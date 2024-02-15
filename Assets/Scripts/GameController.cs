@@ -42,17 +42,28 @@ public class GameController : MonoBehaviour
 
             case GameState.PAUSED:
                 playerOne.isMovable = false;
-                playerTwo.isMovable = true;
+                playerTwo.isMovable = false;
                 break;
 
             case GameState.LEVEL_COMPLETE:
                 playerOne.isMovable = false;
-                playerTwo.isMovable = true;
+                playerTwo.isMovable = false;
                 break;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            SwapPlayer();
         }
     }
 
     public void ChangeGameState(GameState newState) => gameState = newState;
 
     public GameState GetGameState() => gameState;
+
+    public void SwapPlayer()
+    {
+        playerOne.ChangePlayerIndex(TWO);
+        playerTwo.ChangePlayerIndex(ONE);
+    }
 }

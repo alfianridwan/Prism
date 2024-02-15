@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public bool isPlayerOne = true;
+    public enum PlayerIndex
+    {
+        ONE,
+        TWO,
+        TEMP_ONE,
+        TEMP_TWO
+    }
+    // public bool isPlayerOne = true;
+    public PlayerIndex playerIndex;
     public bool isMovable;
     public float speed = 5.0f;
     public float jumpForce = 5.0f;
@@ -12,7 +20,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerOne)
+        if (playerIndex == PlayerIndex.ONE)
         {
             Move(KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.S);
         }
@@ -57,4 +65,7 @@ public class Player : MonoBehaviour
     {
         Debug.Log("Interacting with object");
     }
+
+    public void ChangePlayerIndex(PlayerIndex newPlayerIndex) => playerIndex = newPlayerIndex;
+
 }
