@@ -36,15 +36,18 @@ public class GameController : MonoBehaviour
         switch (gameState)
         {
             case GameState.PLAY:
-                player.isMovable = true;
+                playerOne.isMovable = true;
+                playerTwo.isMovable = true;
                 break;
 
             case GameState.PAUSED:
-                player.isMovable = false;
+                playerOne.isMovable = false;
+                playerTwo.isMovable = true;
                 break;
 
             case GameState.LEVEL_COMPLETE:
-                player.isMovable = false;
+                playerOne.isMovable = false;
+                playerTwo.isMovable = true;
                 break;
         }
     }
