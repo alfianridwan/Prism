@@ -68,4 +68,16 @@ public class Player : MonoBehaviour
 
     public void ChangePlayerIndex(PlayerIndex newPlayerIndex) => playerIndex = newPlayerIndex;
 
+    public void SwapPlayer()
+    {
+        if (playerIndex == PlayerIndex.ONE)
+        {
+            ChangePlayerIndex(PlayerIndex.TWO);
+        }
+        else
+        {
+            ChangePlayerIndex(PlayerIndex.ONE);
+        }
+    }
+
 }

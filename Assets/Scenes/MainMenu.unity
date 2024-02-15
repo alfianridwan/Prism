@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97912925b193b4b78b98533d6665acd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerOne: 1
+  playerIndex: 0
   isMovable: 0
   speed: 5
   jumpForce: 5
@@ -424,8 +424,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameState: 0
-  playerOne: {fileID: 0}
-  playerTwo: {fileID: 0}
+  playerOne: {fileID: 199292023}
+  playerTwo: {fileID: 1338048367}
   UI: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97912925b193b4b78b98533d6665acd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerOne: 0
+  playerIndex: 1
   isMovable: 0
   speed: 5
   jumpForce: 5

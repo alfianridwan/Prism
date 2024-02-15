@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
 
     public void SwapPlayer()
     {
-        playerOne.ChangePlayerIndex(TWO);
-        playerTwo.ChangePlayerIndex(ONE);
+        playerOne.ChangePlayerIndex(Player.PlayerIndex.TWO);
+        playerTwo.ChangePlayerIndex(Player.PlayerIndex.ONE);
     }
 }
