@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public bool isPlayerOne = true;
+    public bool isMovable;
     public float speed = 5.0f;
     public float jumpForce = 5.0f;
     public bool isJumping = false;
@@ -23,6 +24,8 @@ public class Player : MonoBehaviour
 
     void Move(KeyCode left, KeyCode right, KeyCode up, KeyCode down)
     {
+        if (!isMovable) return;
+
         if (Input.GetKey(left))
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime);
