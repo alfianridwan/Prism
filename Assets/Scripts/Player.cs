@@ -16,7 +16,12 @@ public class Player : MonoBehaviour
     public bool isMovable;
     public float speed = 5.0f;
     public float jumpForce = 5.0f;
+    public float currentScale = 1.0f;
+    public float currentRotation = 0.0f;
     public bool isJumping = false;
+    public bool canTransform = true;
+
+    public GameObject spriteChild;
 
     void Update()
     {
@@ -55,15 +60,22 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Player"))
         {
             isJumping = false;
         }
     }
 
-    public virtual void Interact()
+    public void Interact()
     {
-        Debug.Log("Interacting with object");
+        if (playerIndex == PlayerIndex.ONE)
+        {
+            GameController.Instance.RotatePlayers();
+        }
+        else
+        {
+            GameController.Instance.SizePlayers();
+        }
     }
 
     public void ChangePlayerIndex(PlayerIndex newPlayerIndex) => playerIndex = newPlayerIndex;

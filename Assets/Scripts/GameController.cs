@@ -13,9 +13,22 @@ public class GameController : MonoBehaviour
         LEVEL_COMPLETE
     }
 
+    [Header("Game Settings")]
     public GameState gameState;
+    public float rotateAmount = 45f;
+    public float scaleAmount = 0.25f;
+    public float minScaleAmount = 0.5f;
+    public float maxScaleAmount = 1.5f;
+    public float jumpAmount = 1f;
+    public float minJumpAmount = 3.0f;
+    public float maxJumpAmount = 7.0f;
+
+    [Header("Player Settings")]
     public Player playerOne;
     public Player playerTwo;
+    public List<Player> players = new List<Player>();
+
+    [Header("UI")]
     public UIController UI;
 
     private void Awake()
@@ -29,6 +42,13 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+        // add playerOne and playerTwo to the List
+        players.Add(playerOne);
+        players.Add(playerTwo);
     }
 
     private void Update()
@@ -65,5 +85,42 @@ public class GameController : MonoBehaviour
     {
         playerOne.ChangePlayerIndex(Player.PlayerIndex.TWO);
         playerTwo.ChangePlayerIndex(Player.PlayerIndex.ONE);
+    }
+
+    public void RotatePlayers()
+    {
+        foreach(Player player in players)
+        {
+            if (player.canTransform)
+            {
+                player.currentRotation += rotateAmount;
+
+                player.currentRotation %= 360f;
+
+                LeanTween.rotateZ(player.spriteChild.gameObject, player.currentRotation, 0.5f).setEase(LeanTweenType.easeOutBounce);
+            }
+        }
+    }
+
+    public void SizePlayers()
+    {
+        foreach(Player player in players)
+        {
+            if (player.canTransform)
+            {
+                player.currentScale += scaleAmount;
+                player.jumpForce += jumpAmount;
+
+                if (player.currentScale > maxScaleAmount)
+                {
+                    player.currentScale = minScaleAmount;
+                    player.jumpForce = minJumpAmount;
+                }
+
+                LeanTween.scale(player.gameObject, new Vector3(player.currentScale, player.currentScale, 1f), 0.5f).setEase(LeanTweenType.easeOutBounce);
+
+                player.transform.localScale = new Vector3(player.currentScale, player.currentScale, 1f);
+            }
+        }
     }
 }
