@@ -154,6 +154,7 @@ public class Sound
     public bool loop = false;
 
     public bool isMusic = false;
+    public string soundCollection;
 
     [HideInInspector]
     public AudioSource source;

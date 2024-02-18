@@ -5,24 +5,24 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class ColorSwitcher : MonoBehaviour
 {
-    public enum ColorGroup
+    public bool interactable = false;
+    private Collider2D collider;
+
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        GREY,
-        RED,
-        GREEN,
-        BLUE,
-        WHITE
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player enter color switcher");
+            collision.gameObject.GetComponent<Player>().swapInteractive = true;
+        }
     }
 
-    public ColorGroup activeColor;
-    public Collider2D collider;
-    public bool interactable = false;
-
-    public void Interact()
+    void OnTriggerExit2D(Collider2D collision)
     {
-        if (!interactable) return;
-
-        // cycle through the activeColor from GREY to WHITE each time this object is being interated
-
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player exit color switcher");
+            collision.gameObject.GetComponent<Player>().swapInteractive = false;
+        }
     }
 }

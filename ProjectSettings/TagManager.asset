@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - Object
   layers:
   - Default
   - TransparentFX
@@ -12,12 +13,12 @@ TagManager:
   - 
   - Water
   - UI
+  - Background
+  - Level
+  - Platform
+  - Player
   - 
   - 
-  - 
-  - 
-  - Post-Processing
-  - Glow
   - 
   - 
   - 
@@ -41,4 +42,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3995434581
+    locked: 0
+  - name: Level
+    uniqueID: 1057715411
+    locked: 0
+  - name: Object
+    uniqueID: 485661061
+    locked: 0
+  - name: Player
+    uniqueID: 4224317979
     locked: 0

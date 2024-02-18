@@ -11,17 +11,34 @@ public class Player : MonoBehaviour
         TEMP_ONE,
         TEMP_TWO
     }
-    // public bool isPlayerOne = true;
+
     public PlayerIndex playerIndex;
-    public bool isMovable;
+    public ColorGroup activeColor;
+
     public float speed = 5.0f;
     public float jumpForce = 5.0f;
     public float currentScale = 1.0f;
+    public float groundCheckRadius = 0.01f;
     public float currentRotation = 0.0f;
-    public bool isJumping = false;
+    public bool isMovable = true;
+    public bool isGrounded = true;
     public bool canTransform = true;
+    public bool swapInteractive = false;
+    public LayerMask whatIsGround;
+    public Transform checkSphere;
 
     public GameObject spriteChild;
+    public Rigidbody2D rb;
+    public SpriteRenderer sr;
+    public UnityEngine.Rendering.Universal.Light2D light;
+
+    void Start()
+    {
+        sr = spriteChild.GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        isMovable = true;
+        activeColor = ColorGroup.GREY;
+    }
 
     void Update()
     {
@@ -33,48 +50,53 @@ public class Player : MonoBehaviour
         {
             Move(KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.UpArrow, KeyCode.DownArrow);
         }
+
+        isGrounded = Physics2D.OverlapCircle(checkSphere.position, groundCheckRadius, whatIsGround);
+
+        // force player transform z to 0
+        transform.position = new Vector3(transform.position.x, transform.position.y, 0);
     }
 
     void Move(KeyCode left, KeyCode right, KeyCode up, KeyCode down)
     {
-        if (!isMovable) return;
+        if (isMovable)
+        {
+            if (Input.GetKey(left))
+            {
+                transform.Translate(Vector3.left * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(right))
+            {
+                transform.Translate(Vector3.right * speed * Time.deltaTime);
+            }
+            if (Input.GetKeyDown(up) && isGrounded)
+            {
+                GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
+        }
 
-        if (Input.GetKey(left))
-        {
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
-        }
-        if (Input.GetKey(right))
-        {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
-        }
-        if (Input.GetKeyDown(up) && !isJumping)
-        {
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            isJumping = true;
-        }
         if (Input.GetKeyDown(down))
         {
             Interact();
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Player"))
-        {
-            isJumping = false;
-        }
-    }
-
     public void Interact()
     {
+        if (swapInteractive)
+        {
+            GameController.Instance.SetActiveColor();
+        }
+
         if (playerIndex == PlayerIndex.ONE)
         {
-            GameController.Instance.RotatePlayers();
+            if (!swapInteractive)
+                GameController.Instance.RotatePlayers();
         }
         else
         {
-            GameController.Instance.SizePlayers();
+            if (!swapInteractive)
+                GameController.Instance.SizePlayers();
         }
     }
 
@@ -91,5 +113,4 @@ public class Player : MonoBehaviour
             ChangePlayerIndex(PlayerIndex.ONE);
         }
     }
-
 }

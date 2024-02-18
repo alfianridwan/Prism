@@ -5,49 +5,54 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class Objects : MonoBehaviour
 {
-    public enum ColorGroup
-    {
-        GREY,
-        RED,
-        GREEN,
-        BLUE,
-        WHITE
-    }
-
-    public Collider2D collider;
+    private Collider2D collider;
+    private SpriteRenderer sr;
     public ColorGroup color;
-
 
     public void Start()
     {
-        Collider2D collider = GetComponent<Collider2D>();
+        collider = GetComponent<Collider2D>();
+        sr = GetComponent<SpriteRenderer>();
+
         if (collider == null)
         {
             Debug.LogError("No Collider2D found on this GameObject!");
         }
 
         UpdateCollider();
+
+        sr.color = GameController.Instance.GetColorFromEnum(color);
     }
 
     public void UpdateCollider()
     {
-        switch(color)
+        bool isTrigger = false;
+
+        if (GameController.Instance.activeColor == color)
         {
-            case ColorGroup.GREY:
-                collider.isTrigger = false;
-                break;
-            case ColorGroup.RED:
-                collider.isTrigger = false;
-                break;
-            case ColorGroup.GREEN:
-                collider.isTrigger = false;
-                break;
-            case ColorGroup.BLUE:
-                collider.isTrigger = false;
-                break;
-            case ColorGroup.WHITE:
-                collider.isTrigger = true;
-                break;
+            isTrigger = true;
         }
+
+        if (color == ColorGroup.GREY)
+        {
+            isTrigger = false;
+        }
+
+        if (color == ColorGroup.WHITE)
+        {
+            isTrigger = true;
+        }
+
+        collider.isTrigger = isTrigger;
     }
+
+    public void OnValidate()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        sr.color = GameController.Instance.GetColorFromEnum(color);
+    }
+
+    // a function that rotates the object by GameController rotate amount
+
+
 }
