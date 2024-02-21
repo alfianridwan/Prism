@@ -30,18 +30,22 @@ public class Player : MonoBehaviour
     public GameObject spriteChild;
     public Rigidbody2D rb;
     public SpriteRenderer sr;
+    public Collider2D collider;
     public UnityEngine.Rendering.Universal.Light2D light;
 
     void Start()
     {
         sr = spriteChild.GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
+        collider = GetComponent<Collider2D>();
         isMovable = true;
         activeColor = ColorGroup.GREY;
     }
 
     void Update()
     {
+        if (GameController.Instance.gameState != GameState.PLAY) return;
+
         if (playerIndex == PlayerIndex.ONE)
         {
             Move(KeyCode.A, KeyCode.D, KeyCode.W, KeyCode.S);

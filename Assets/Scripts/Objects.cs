@@ -46,11 +46,11 @@ public class Objects : MonoBehaviour
         collider.isTrigger = isTrigger;
     }
 
-    public void OnValidate()
-    {
-        sr = GetComponent<SpriteRenderer>();
-        sr.color = GameController.Instance.GetColorFromEnum(color);
-    }
+    // public void OnValidate()
+    // {
+    //     sr = GetComponent<SpriteRenderer>();
+    //     sr.color = GameController.Instance.GetColorFromEnum(color);
+    // }
 
     // a function that rotates the object by GameController rotate amount
 

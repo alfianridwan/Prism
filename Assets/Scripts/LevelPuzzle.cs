@@ -56,6 +56,7 @@ public class LevelPuzzle : MonoBehaviour
                     player.canTransform = false;
                     player.rb.gravityScale = 0.0f;
                     player.rb.velocity = Vector2.zero;
+                    player.collider.isTrigger = true;
                     fullComplete = true;
                     levelComplete.puzzleTriangleComplete = true;
                     AudioController.instance.Play("TriangleComplete");
@@ -68,6 +69,7 @@ public class LevelPuzzle : MonoBehaviour
                     player.canTransform = false;
                     player.rb.gravityScale = 0.0f;
                     player.rb.velocity = Vector2.zero;
+                    player.collider.isTrigger = true;
                     fullComplete = true;
                     levelComplete.puzzleCircleComplete = true;
                     AudioController.instance.Play("CircleComplete");

@@ -36,6 +36,7 @@ public class LevelComplete : MonoBehaviour
                 {
                     player.isMovable = true;
                     player.canTransform = true;
+                    player.collider.isTrigger = false;
                     player.rb.gravityScale = 1.0f;
                 }
 
@@ -50,15 +51,23 @@ public class LevelComplete : MonoBehaviour
 
         GameController.Instance.currentLevel++;
 
-        vcam.Priority = 11;
+        vcam.Priority = 15;
         yield return new WaitForSeconds(2.0f);
 
         LeanTween.alpha(backgroundFade.gameObject, 1.0f, 1.0f);
 
         AudioController.instance.Play("LevelComplete");
+        // GameController.Instance.gameState = GameState.MAINMENU;
 
         yield return new WaitForSeconds(3f);
 
         vcam.Priority = 9;
+
+        yield return new WaitForSeconds(1f);
+
+        if (GameController.Instance.currentLevel == 4)
+        {
+            GameController.Instance.UI.ShowGameComplete();
+        }
     }
 }

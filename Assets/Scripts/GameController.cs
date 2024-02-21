@@ -16,7 +16,7 @@ public enum GameState
 {
     PLAY,
     PAUSED,
-    LEVEL_COMPLETE
+    MAINMENU
 }
 
 public class GameController : MonoBehaviour
@@ -54,6 +54,8 @@ public class GameController : MonoBehaviour
     [Header ("Camera")]
     public List<CinemachineVirtualCamera> puzzleVirtualCameras = new List<CinemachineVirtualCamera>();
 
+    public List<CinemachineVirtualCamera> cinematicCamera = new List<CinemachineVirtualCamera>();
+
     [Header("UI")]
     public UIController UI;
 
@@ -84,6 +86,8 @@ public class GameController : MonoBehaviour
         rotatables.AddRange(FindObjectsOfType<Rotatable>());
 
         AudioController.instance.PlayLoop("BGM");
+
+        gameState = GameState.MAINMENU;
     }
 
     private void Update()
@@ -96,6 +100,10 @@ public class GameController : MonoBehaviour
 
             case GameState.PAUSED:
                 Time.timeScale = 0.0f;
+                break;
+
+            case GameState.MAINMENU:
+                Time.timeScale = 1.0f;
                 break;
         }
 
@@ -119,11 +127,15 @@ public class GameController : MonoBehaviour
             UnfocusCamera(currentLevel);
         }
 
-        timeElapsed += Time.deltaTime;
+        if (gameState == GameState.PLAY)
+        {
+            timeElapsed += Time.deltaTime;
 
-        timeRemaining = timeLimit - timeElapsed;
+            timeRemaining = timeLimit - timeElapsed;
 
-        UI.UpdateTimer(timeRemaining, timeLimit);
+            UI.UpdateTimer(timeRemaining, timeLimit);
+        }
+
 
         if (timeRemaining <= 0)
         {
@@ -340,5 +352,22 @@ public class GameController : MonoBehaviour
     public void UnfocusCamera(int levelNumber)
     {
         puzzleVirtualCameras[levelNumber - 1].Priority = 9;
+    }
+
+    public void BeginGame()
+    {
+        StartCoroutine(CinematicScene());
+    }
+
+    public IEnumerator CinematicScene()
+    {
+        foreach(CinemachineVirtualCamera vcam in cinematicCamera)
+        {
+            vcam.Priority = 11;
+            yield return new WaitForSeconds(4.0f);
+            vcam.Priority = 9;
+        }
+        yield return new WaitForSeconds(1.0f);
+        gameState = GameState.PLAY;
     }
 }
